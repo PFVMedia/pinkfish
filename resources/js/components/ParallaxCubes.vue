@@ -41,18 +41,19 @@ interface Cube {
     opacity: number;
     hue: number;
     spinClass: string;
+    orbitClass: string;
 }
 
 const cubes: Cube[] = [
-    { id: 1, size: 320, x: '8%',  y: '8%',  speed: 0.04,  mouseInfluence: 20, opacity: 0.7,  hue: 0,    spinClass: 'spin-a' },
-    { id: 2, size: 260, x: '72%', y: '12%', speed: -0.05, mouseInfluence: 15, opacity: 0.65, hue: 60,   spinClass: 'spin-b' },
-    { id: 3, size: 220, x: '45%', y: '55%', speed: 0.03,  mouseInfluence: 25, opacity: 0.6,  hue: -45,  spinClass: 'spin-c' },
-    { id: 4, size: 180, x: '18%', y: '42%', speed: -0.06, mouseInfluence: 30, opacity: 0.75, hue: 120,  spinClass: 'spin-a' },
-    { id: 5, size: 170, x: '82%', y: '62%', speed: 0.05,  mouseInfluence: 28, opacity: 0.7,  hue: -90,  spinClass: 'spin-b' },
-    { id: 6, size: 200, x: '6%',  y: '72%', speed: -0.04, mouseInfluence: 22, opacity: 0.65, hue: 30,   spinClass: 'spin-c' },
-    { id: 7, size: 120, x: '55%', y: '18%', speed: 0.07,  mouseInfluence: 40, opacity: 0.8,  hue: 180,  spinClass: 'spin-a' },
-    { id: 8, size: 100, x: '30%', y: '82%', speed: -0.08, mouseInfluence: 45, opacity: 0.75, hue: -120, spinClass: 'spin-b' },
-    { id: 9, size: 90,  x: '88%', y: '42%', speed: 0.09,  mouseInfluence: 50, opacity: 0.8,  hue: 90,   spinClass: 'spin-c' },
+    { id: 1, size: 320, x: '8%',  y: '8%',  speed: 0.04,  mouseInfluence: 20, opacity: 0.7,  hue: 0,    spinClass: 'spin-a', orbitClass: 'orbit-1' },
+    { id: 2, size: 260, x: '72%', y: '12%', speed: -0.05, mouseInfluence: 15, opacity: 0.65, hue: 60,   spinClass: 'spin-b', orbitClass: 'orbit-2' },
+    { id: 3, size: 220, x: '45%', y: '55%', speed: 0.03,  mouseInfluence: 25, opacity: 0.6,  hue: -45,  spinClass: 'spin-c', orbitClass: 'orbit-3' },
+    { id: 4, size: 180, x: '18%', y: '42%', speed: -0.06, mouseInfluence: 30, opacity: 0.75, hue: 120,  spinClass: 'spin-a', orbitClass: 'orbit-4' },
+    { id: 5, size: 170, x: '82%', y: '62%', speed: 0.05,  mouseInfluence: 28, opacity: 0.7,  hue: -90,  spinClass: 'spin-b', orbitClass: 'orbit-5' },
+    { id: 6, size: 200, x: '6%',  y: '72%', speed: -0.04, mouseInfluence: 22, opacity: 0.65, hue: 30,   spinClass: 'spin-c', orbitClass: 'orbit-6' },
+    { id: 7, size: 120, x: '55%', y: '18%', speed: 0.07,  mouseInfluence: 40, opacity: 0.8,  hue: 180,  spinClass: 'spin-a', orbitClass: 'orbit-7' },
+    { id: 8, size: 100, x: '30%', y: '82%', speed: -0.08, mouseInfluence: 45, opacity: 0.75, hue: -120, spinClass: 'spin-b', orbitClass: 'orbit-8' },
+    { id: 9, size: 90,  x: '88%', y: '42%', speed: 0.09,  mouseInfluence: 50, opacity: 0.8,  hue: 90,   spinClass: 'spin-c', orbitClass: 'orbit-9' },
 ];
 
 function cubeWrapperStyle(cube: Cube): Record<string, string> {
@@ -81,6 +82,7 @@ function cubeWrapperStyle(cube: Cube): Record<string, string> {
             v-for="cube in cubes"
             :key="cube.id"
             class="cube-wrapper"
+            :class="cube.orbitClass"
             :style="cubeWrapperStyle(cube)"
         >
             <div class="cube" :class="cube.spinClass">
@@ -159,4 +161,37 @@ function cubeWrapperStyle(cube: Cube): Record<string, string> {
 .spin-a { animation: spin-a 40s linear infinite; }
 .spin-b { animation: spin-b 50s linear infinite; }
 .spin-c { animation: spin-c 60s linear infinite; }
+
+@keyframes orbit-a {
+    0%   { margin-left: 0;     margin-top: 0; }
+    25%  { margin-left: 40px;  margin-top: -30px; }
+    50%  { margin-left: 0;     margin-top: -60px; }
+    75%  { margin-left: -40px; margin-top: -30px; }
+    100% { margin-left: 0;     margin-top: 0; }
+}
+
+@keyframes orbit-b {
+    0%   { margin-left: 0;     margin-top: 0; }
+    25%  { margin-left: -50px; margin-top: 40px; }
+    50%  { margin-left: -100px; margin-top: 0; }
+    75%  { margin-left: -50px; margin-top: -40px; }
+    100% { margin-left: 0;     margin-top: 0; }
+}
+
+@keyframes orbit-c {
+    0%   { margin-left: 0;    margin-top: 0; }
+    33%  { margin-left: 60px; margin-top: 30px; }
+    66%  { margin-left: 30px; margin-top: -50px; }
+    100% { margin-left: 0;    margin-top: 0; }
+}
+
+.orbit-1 { animation: orbit-a 25s ease-in-out infinite; }
+.orbit-2 { animation: orbit-b 30s ease-in-out infinite; }
+.orbit-3 { animation: orbit-c 28s ease-in-out infinite; }
+.orbit-4 { animation: orbit-a 22s ease-in-out infinite reverse; }
+.orbit-5 { animation: orbit-b 26s ease-in-out infinite reverse; }
+.orbit-6 { animation: orbit-c 32s ease-in-out infinite; }
+.orbit-7 { animation: orbit-a 18s ease-in-out infinite; }
+.orbit-8 { animation: orbit-b 20s ease-in-out infinite reverse; }
+.orbit-9 { animation: orbit-c 24s ease-in-out infinite; }
 </style>
