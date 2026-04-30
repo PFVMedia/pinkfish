@@ -1,0 +1,61 @@
+import type { Component } from 'vue';
+import {
+    ArrowRight,
+    BarChart3,
+    CheckCircle,
+    Cloud,
+    Code2,
+    Cpu,
+    Database,
+    ExternalLink,
+    Globe,
+    Heart,
+    Layout,
+    Lock,
+    Mail,
+    MapPin,
+    Monitor,
+    Palette,
+    Phone,
+    Rocket,
+    Server,
+    Shield,
+    Sparkles,
+    Star,
+    Users,
+    Wrench,
+    Zap,
+} from 'lucide-vue-next';
+
+const iconMap: Record<string, Component> = {
+    ArrowRight,
+    BarChart3,
+    CheckCircle,
+    Cloud,
+    Code2,
+    Cpu,
+    Database,
+    ExternalLink,
+    Globe,
+    Heart,
+    Layout,
+    Lock,
+    Mail,
+    MapPin,
+    Monitor,
+    Palette,
+    Phone,
+    Rocket,
+    Server,
+    Shield,
+    Sparkles,
+    Star,
+    Users,
+    Wrench,
+    Zap,
+};
+
+export function resolveIcon(name: string | undefined): Component | null {
+    if (!name) return null;
+    return iconMap[name] ?? null;
+}
