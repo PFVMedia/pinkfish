@@ -157,7 +157,7 @@ Visit:
 - **Admin** — http://localhost/admin (login: `admin@pinkfishventures.com` / `password`)
 - **Mailpit** — http://localhost:8025
 
-For detailed setup, architecture, conventions, and instructions on extending the app, see **[BUILD.md](./BUILD.md)**.
+For detailed setup, architecture, conventions, and instructions on extending the app, see **[BUILD.md](./BUILD.md)**. To deploy to a typical cPanel/Plesk shared host, see **[DEPLOY-SHARED-HOSTING.md](./DEPLOY-SHARED-HOSTING.md)**.
 
 ---
 
