@@ -92,21 +92,23 @@ Recommended layout (the safe pattern):
 │   ├── routes/
 │   ├── storage/
 │   ├── vendor/
-│   ├── public/           ← contents copied/linked into public_html
+│   ├── public/           ← contents COPIED into public_html (keep originals here)
 │   └── ...
 └── public_html/          ← what the web sees
-    ├── build/            ← from public/
+    ├── build/            ← copy from public/
     ├── favicon.ico
     ├── robots.txt
     ├── .htaccess         ← from public/
     └── index.php         ← from public/, edited per below
 ```
 
-### Steps via File Manager (no SSH)
+> **Copy, do not move.** Laravel resolves `public_path()` to `~/pinkfish/public/`, so the Vite manifest must remain at `~/pinkfish/public/build/manifest.json`. The browser-facing copy at `~/public_html/build/` is what serves the JS/CSS to visitors. If you only have one of the two, you'll either get a "Vite manifest not found" exception (manifest missing on the app side) or 404s on assets (build missing on the web side). The cleanest alternative is a symlink — see option B below.
+
+### Steps via File Manager (no SSH) — option A: copy
 
 1. Upload `pinkfish.zip` to `~/` (your home directory, **above** `public_html/`).
 2. Use the host's File Manager → "Extract" to unzip into `~/pinkfish/`.
-3. Move (or copy) **the contents of** `~/pinkfish/public/` into `~/public_html/`.
+3. **Copy** (do not move) **the contents of** `~/pinkfish/public/` into `~/public_html/`. The originals must remain in `~/pinkfish/public/` for Laravel to find the Vite manifest.
 4. Open `~/public_html/index.php` and change the two paths that point back to the app root:
 
 ```php
@@ -121,15 +123,40 @@ $app = require_once __DIR__.'/../pinkfish/bootstrap/app.php';
 
 5. Make sure `~/public_html/.htaccess` was uploaded (some File Managers hide dotfiles — toggle "show hidden files").
 
-### Steps via SSH
+### Steps via SSH — option A: copy
 
 ```bash
 ssh <user>@<host>
 cd ~
 unzip pinkfish.zip -d pinkfish
-cp -R pinkfish/public/. public_html/
+cp -R pinkfish/public/. public_html/   # copy, not mv — originals must stay
 # Edit index.php as shown above
 ```
+
+### Option B: symlink (SSH only, cleaner for updates)
+
+If your host allows `symlink()`, replace the `~/public_html/build` directory with a symlink so a single `npm run build` upload updates both views:
+
+```bash
+rm -rf ~/public_html/build
+ln -s ~/pinkfish/public/build ~/public_html/build
+```
+
+Do the same for `storage` (covered in section 7). With this layout you can re-upload only `~/pinkfish/public/build/` after each rebuild and the web copy follows automatically.
+
+### Option C: override `public_path()` (no copy, no symlink)
+
+If your host blocks `symlink()` and you don't want two copies of the build directory, tell Laravel that `~/public_html/` *is* the public path. In `~/pinkfish/bootstrap/app.php`, before `->create()`, add:
+
+```php
+$app = Application::configure(basePath: dirname(__DIR__))
+    // ...existing config...
+    ->create();
+
+$app->usePublicPath(dirname(__DIR__, 2).'/public_html');
+```
+
+Adjust the path so it resolves to your real `~/public_html/`. After this, Laravel reads the manifest from `~/public_html/build/manifest.json` and you only need one copy. Run `php artisan config:clear` after changing this.
 
 ---
 
@@ -322,7 +349,7 @@ For larger sites, switch to a Git-based deploy: clone the repo on the server (in
 | Symptom | Fix |
 |---|---|
 | **500 error after deploy** | Tail `storage/logs/laravel.log` (File Manager → View). Most often: missing `APP_KEY`, wrong `index.php` paths, or a cached config still pointing at dev DB. Run `php artisan config:clear` (or delete `bootstrap/cache/config.php`). |
-| **"The Mix manifest does not exist" / "Unable to locate file in Vite manifest"** | You forgot to upload `public/build/` or didn't run `npm run build` locally. |
+| **"Unable to locate file in Vite manifest" / `ViteManifestNotFoundException`** | Laravel reads the manifest from `~/pinkfish/public/build/manifest.json` (the app's own `public/`), not from `~/public_html/build/`. If you **moved** the contents of `public/` into `public_html/` instead of copying, the manifest is gone from where Laravel looks. Fix: copy `public/build/` back into `~/pinkfish/public/build/`, OR symlink it (`ln -s ~/pinkfish/public/build ~/public_html/build`), OR override `public_path()` — see section 4 options A/B/C. Also confirm `~/pinkfish/public/hot` does **not** exist — if it does, delete it (it forces dev mode). |
 | **Database connection refused** | Confirm `DB_HOST=localhost` (most cPanel hosts) and that the DB user is attached to the database with all privileges. |
 | **`storage:link` errors / no images load** | `symlink()` disabled — see section 7 alternatives. |
 | **2FA QR codes don't render** | Your host is on PHP without `gd` or `imagick`, **or** the page isn't HTTPS. Enable both. |
