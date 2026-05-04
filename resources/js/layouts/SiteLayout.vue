@@ -4,6 +4,8 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 import { Menu, X } from 'lucide-vue-next';
 import ParallaxOrbs from '@/components/ParallaxOrbs.vue';
 import ParallaxCubes from '@/components/ParallaxCubes.vue';
+import PastelBackground from '@/components/PastelBackground.vue';
+import { pastelColor } from '@/lib/pastels';
 
 const page = usePage();
 const mobileMenuOpen = ref(false);
@@ -55,6 +57,11 @@ function applyPalette(palette: string, dark: boolean) {
 
 watch([colorPalette, isDark], ([palette, dark]) => applyPalette(palette, dark), { immediate: true });
 
+const isPastel = computed(() => backgroundStyle.value === 'pastel');
+const headerStyle = computed(() => (isPastel.value ? { backgroundColor: pastelColor(colorPalette.value, 'header', isDark.value) } : {}));
+const footerStyle = computed(() => (isPastel.value ? { backgroundColor: pastelColor(colorPalette.value, 'footer', isDark.value) } : {}));
+const mobileMenuStyle = computed(() => (isPastel.value ? { backgroundColor: pastelColor(colorPalette.value, 'header', isDark.value) } : {}));
+
 const navLinks = computed(() => {
     const nav = settings.value.main_nav;
     if (Array.isArray(nav) && nav.length > 0) return nav as Array<{ name: string; href: string }>;
@@ -85,10 +92,15 @@ function isActive(href: string): boolean {
 <template>
     <div class="relative flex min-h-screen flex-col text-foreground">
         <ParallaxCubes v-if="backgroundStyle === 'cubes'" />
+        <PastelBackground v-else-if="backgroundStyle === 'pastel'" :palette="colorPalette" :dark="isDark" />
         <ParallaxOrbs v-else />
 
         <!-- Navigation -->
-        <header class="fixed top-0 z-50 w-full border-b border-border/50 bg-background/80 backdrop-blur-xl">
+        <header
+            class="fixed top-0 z-50 w-full border-b border-border/50 backdrop-blur-xl"
+            :class="isPastel ? '' : 'bg-background/80'"
+            :style="headerStyle"
+        >
             <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <Link href="/" class="flex items-center gap-2.5">
                     <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
@@ -128,7 +140,12 @@ function isActive(href: string): boolean {
                 </div>
             </div>
 
-            <div v-if="mobileMenuOpen" class="border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden">
+            <div
+                v-if="mobileMenuOpen"
+                class="border-t border-border/50 backdrop-blur-xl md:hidden"
+                :class="isPastel ? '' : 'bg-background/95'"
+                :style="mobileMenuStyle"
+            >
                 <nav class="flex flex-col gap-1 px-4 py-4">
                     <Link
                         v-for="link in navLinks"
@@ -165,7 +182,11 @@ function isActive(href: string): boolean {
         </main>
 
         <!-- Footer -->
-        <footer class="border-t border-border/50 bg-muted/30" style="position: relative; z-index: 10">
+        <footer
+            class="border-t border-border/50"
+            :class="isPastel ? '' : 'bg-muted/30'"
+            :style="{ ...footerStyle, position: 'relative', zIndex: 10 }"
+        >
             <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                     <div class="sm:col-span-2 lg:col-span-1">

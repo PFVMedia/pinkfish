@@ -7,13 +7,13 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Cache;
@@ -88,6 +88,7 @@ class ManageSiteSettings extends Page implements HasForms
                             ->options([
                                 'orbs' => 'Orbs (Spheres)',
                                 'cubes' => 'Cubes (3D)',
+                                'pastel' => 'Pastel (Solid Color)',
                             ])
                             ->default('orbs')
                             ->required(),
