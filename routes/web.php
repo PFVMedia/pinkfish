@@ -23,8 +23,4 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 Route::get('/privacy', PrivacyController::class)->name('privacy');
 Route::get('/disclaimer', DisclaimerController::class)->name('disclaimer');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
-});
-
 require __DIR__.'/settings.php';

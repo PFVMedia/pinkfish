@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -10,6 +11,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -42,6 +44,18 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
+            ])
+            ->userMenuItems([
+                Action::make('profile')
+                    ->label('Profile')
+                    ->icon(Heroicon::OutlinedUserCircle)
+                    ->url(fn (): string => route('profile.edit'))
+                    ->openUrlInNewTab(false),
+                Action::make('security')
+                    ->label('Password & 2FA')
+                    ->icon(Heroicon::OutlinedShieldCheck)
+                    ->url(fn (): string => route('security.edit'))
+                    ->openUrlInNewTab(false),
             ])
             ->middleware([
                 EncryptCookies::class,
