@@ -22,5 +22,3 @@ Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send')->middleware('throttle:3,1');
 Route::get('/privacy', PrivacyController::class)->name('privacy');
 Route::get('/disclaimer', DisclaimerController::class)->name('disclaimer');
-
-require __DIR__.'/settings.php';
