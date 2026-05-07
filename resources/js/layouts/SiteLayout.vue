@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-vue-next';
 import ParallaxOrbs from '@/components/ParallaxOrbs.vue';
 import ParallaxCubes from '@/components/ParallaxCubes.vue';
 import PastelBackground from '@/components/PastelBackground.vue';
+import SmartLink from '@/components/SmartLink.vue';
 import { pastelColor } from '@/lib/pastels';
 
 const page = usePage();
@@ -110,7 +111,7 @@ function isActive(href: string): boolean {
                 </Link>
 
                 <nav class="hidden items-center gap-1 md:flex">
-                    <Link
+                    <SmartLink
                         v-for="link in navLinks"
                         :key="link.href"
                         :href="link.href"
@@ -118,16 +119,16 @@ function isActive(href: string): boolean {
                         :class="isActive(link.href) ? 'text-foreground' : 'text-muted-foreground'"
                     >
                         {{ link.name }}
-                    </Link>
+                    </SmartLink>
                 </nav>
 
                 <div class="flex items-center gap-3">
-                    <Link
+                    <SmartLink
                         :href="ctaUrl"
                         class="hidden rounded-full border border-border bg-background px-5 py-2 text-sm font-medium shadow-sm transition-all hover:border-primary/30 hover:shadow-md sm:inline-flex"
                     >
                         {{ ctaText }}
-                    </Link>
+                    </SmartLink>
                     <button
                         class="inline-flex items-center justify-center rounded-full p-2 text-muted-foreground hover:bg-accent md:hidden"
                         @click="mobileMenuOpen = !mobileMenuOpen"
@@ -145,7 +146,7 @@ function isActive(href: string): boolean {
                 :style="mobileMenuStyle"
             >
                 <nav class="flex flex-col gap-1 px-4 py-4">
-                    <Link
+                    <SmartLink
                         v-for="link in navLinks"
                         :key="link.href"
                         :href="link.href"
@@ -154,14 +155,14 @@ function isActive(href: string): boolean {
                         @click="mobileMenuOpen = false"
                     >
                         {{ link.name }}
-                    </Link>
-                    <Link
+                    </SmartLink>
+                    <SmartLink
                         :href="ctaUrl"
                         class="mt-2 rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-medium text-primary-foreground"
                         @click="mobileMenuOpen = false"
                     >
                         {{ ctaText }}
-                    </Link>
+                    </SmartLink>
                 </nav>
             </div>
         </header>
@@ -200,9 +201,9 @@ function isActive(href: string): boolean {
                     <div v-for="column in footerColumns" :key="column.title">
                         <h4 class="text-sm font-semibold">{{ column.title }}</h4>
                         <nav class="mt-4 flex flex-col gap-2.5">
-                            <Link v-for="link in column.links" :key="link.href" :href="link.href" class="text-sm text-muted-foreground transition hover:text-foreground">
+                            <SmartLink v-for="link in column.links" :key="link.href" :href="link.href" class="text-sm text-muted-foreground transition hover:text-foreground">
                                 {{ link.name }}
-                            </Link>
+                            </SmartLink>
                         </nav>
                     </div>
                 </div>
