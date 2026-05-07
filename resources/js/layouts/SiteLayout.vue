@@ -104,9 +104,7 @@ function isActive(href: string): boolean {
             <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <Link href="/" class="flex items-center gap-2.5">
                     <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                        <svg class="h-4 w-4 text-primary-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                        </svg>
+                        <span class="text-[10px] font-bold tracking-tight text-primary-foreground">PFV</span>
                     </div>
                     <span class="text-lg font-semibold tracking-tight">{{ logoText }}</span>
                 </Link>
@@ -192,9 +190,7 @@ function isActive(href: string): boolean {
                     <div class="sm:col-span-2 lg:col-span-1">
                         <Link href="/" class="flex items-center gap-2.5">
                             <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                                <svg class="h-4 w-4 text-primary-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                                </svg>
+                                <span class="text-[10px] font-bold tracking-tight text-primary-foreground">PFV</span>
                             </div>
                             <span class="text-lg font-semibold">{{ logoText }}</span>
                         </Link>

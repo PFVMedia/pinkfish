@@ -100,6 +100,7 @@ class ManageSiteSettings extends Page implements HasForms
                     ->schema([
                         Repeater::make('main_nav')
                             ->label('Menu Items')
+                            ->helperText('When empty, the public site falls back to default links (Services, Tools, Blog, Links). Click "Add to Menu Items" below to override with your own.')
                             ->schema([
                                 TextInput::make('name')->required(),
                                 TextInput::make('href')->required(),
@@ -119,6 +120,7 @@ class ManageSiteSettings extends Page implements HasForms
                     ->schema([
                         Repeater::make('footer_columns')
                             ->label('Footer Columns')
+                            ->helperText('When empty, the public site falls back to default footer columns (Navigation, Resources, Legal). Click "Add to Footer Columns" below to override with your own.')
                             ->schema([
                                 TextInput::make('title')->required(),
                                 Repeater::make('links')
