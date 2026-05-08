@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\ContentBlocks\Schemas;
 
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -35,18 +34,20 @@ class ContentBlockForm
                     ->required()
                     ->live(),
                 TextInput::make('value')
+                    ->label('Value')
                     ->columnSpanFull()
                     ->visible(fn ($get) => in_array($get('type'), ['text', 'image'], true))
                     ->maxLength(2000),
-                RichEditor::make('value')
+                Textarea::make('value')
+                    ->label('Value (HTML)')
+                    ->helperText('Raw HTML — use tags like <p>, <br>, <strong>.')
+                    ->rows(10)
                     ->columnSpanFull()
                     ->visible(fn ($get) => $get('type') === 'html'),
                 Toggle::make('value')
+                    ->label('Value')
                     ->columnSpanFull()
                     ->visible(fn ($get) => $get('type') === 'boolean'),
-                Textarea::make('value')
-                    ->columnSpanFull()
-                    ->visible(fn ($get) => ! in_array($get('type'), ['text', 'html', 'image', 'boolean'], true)),
             ]);
     }
 }
