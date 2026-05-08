@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useForm, usePage } from '@inertiajs/vue3';
 import { Mail, MapPin, Phone } from 'lucide-vue-next';
+import { onMounted, ref } from 'vue';
 
 defineProps<{
     badge_text?: string;
@@ -10,7 +11,19 @@ defineProps<{
     content?: Record<string, string>;
 }>();
 
+declare global {
+    interface Window {
+        turnstile?: {
+            render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+            reset: (id?: string) => void;
+        };
+        onloadTurnstileCallback?: () => void;
+    }
+}
+
 const page = usePage();
+const turnstileEl = ref<HTMLElement | null>(null);
+let widgetId: string | null = null;
 
 const form = useForm({
     name: '',
@@ -19,9 +32,51 @@ const form = useForm({
     'cf-turnstile-response': '',
 });
 
+function renderWidget(): void {
+    if (!turnstileEl.value || !page.props.turnstileSiteKey || !window.turnstile) {
+        return;
+    }
+    widgetId = window.turnstile.render(turnstileEl.value, {
+        sitekey: page.props.turnstileSiteKey,
+        callback: (token: string) => {
+            form['cf-turnstile-response'] = token;
+        },
+        'error-callback': () => {
+            form['cf-turnstile-response'] = '';
+        },
+        'expired-callback': () => {
+            form['cf-turnstile-response'] = '';
+        },
+    });
+}
+
+onMounted(() => {
+    if (window.turnstile) {
+        renderWidget();
+    } else {
+        const interval = window.setInterval(() => {
+            if (window.turnstile) {
+                window.clearInterval(interval);
+                renderWidget();
+            }
+        }, 100);
+    }
+});
+
 function submit(): void {
     form.post('/contact', {
-        onSuccess: () => form.reset(),
+        onSuccess: () => {
+            form.reset();
+            if (widgetId && window.turnstile) {
+                window.turnstile.reset(widgetId);
+            }
+        },
+        onError: () => {
+            if (widgetId && window.turnstile) {
+                window.turnstile.reset(widgetId);
+            }
+            form['cf-turnstile-response'] = '';
+        },
     });
 }
 </script>
@@ -66,7 +121,7 @@ function submit(): void {
                                     placeholder="Tell us about your project..." />
                                 <p v-if="form.errors.message" class="mt-1.5 text-sm text-destructive">{{ form.errors.message }}</p>
                             </div>
-                            <div v-if="page.props.turnstileSiteKey" class="cf-turnstile" :data-sitekey="page.props.turnstileSiteKey" />
+                            <div v-if="page.props.turnstileSiteKey" ref="turnstileEl" />
                             <p v-if="form.errors['cf-turnstile-response']" class="text-sm text-destructive">{{ form.errors['cf-turnstile-response'] }}</p>
                             <button type="submit" :disabled="form.processing"
                                 class="w-full rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50">

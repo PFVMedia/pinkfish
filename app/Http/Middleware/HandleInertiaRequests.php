@@ -48,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => $request->session()->get('success'),
                 'error' => $request->session()->get('error'),
             ],
-            'turnstileSiteKey' => config('turnstile.site_key'),
+            'turnstileSiteKey' => config('services.turnstile.key'),
             'siteSettings' => fn () => Cache::remember('site_settings', 3600, fn () => SiteSetting::pluck('value', 'key')->toArray()),
         ];
     }
