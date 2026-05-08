@@ -8,6 +8,7 @@ use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\LinksController;
 use App\Http\Controllers\Site\PrivacyController;
 use App\Http\Controllers\Site\ServicesController;
+use App\Http\Controllers\Site\SitemapController;
 use App\Http\Controllers\Site\ToolsController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,11 @@ Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send')->middleware('throttle:3,1');
 Route::get('/privacy', PrivacyController::class)->name('privacy');
 Route::get('/disclaimer', DisclaimerController::class)->name('disclaimer');
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+Route::get('/robots.txt', function () {
+    return response(
+        "User-agent: *\nDisallow:\n\nSitemap: ".route('sitemap')."\n",
+        200,
+        ['Content-Type' => 'text/plain'],
+    );
+})->name('robots');
