@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import SeoHead from '@/components/SeoHead.vue';
 import BlockRenderer from '@/components/blocks/BlockRenderer.vue';
 import { useScrollReveal } from '@/composables/useScrollReveal';
 
 defineProps<{
     page: { title: string; blocks: Array<{ type: string; data: Record<string, unknown> }> } | null;
+    seo?: Record<string, unknown> | null;
     content: Record<string, string>;
     latestPosts: Array<{
         id: number;
@@ -19,7 +20,7 @@ useScrollReveal();
 </script>
 
 <template>
-    <Head title="Home" />
+    <SeoHead :seo="seo" />
 
     <div>
         <BlockRenderer v-if="page?.blocks" :blocks="page.blocks" :extra="{ latestPosts, content }" />

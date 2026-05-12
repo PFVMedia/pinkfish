@@ -25,9 +25,19 @@ Route::get('/privacy', PrivacyController::class)->name('privacy');
 Route::get('/disclaimer', DisclaimerController::class)->name('disclaimer');
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('/robots.txt', function () {
-    return response(
-        "User-agent: *\nDisallow:\n\nSitemap: ".route('sitemap')."\n",
-        200,
-        ['Content-Type' => 'text/plain'],
-    );
+    $lines = [
+        'User-agent: *',
+        'Disallow: /admin',
+        'Disallow: /login',
+        'Disallow: /register',
+        'Disallow: /forgot-password',
+        'Disallow: /reset-password',
+        'Disallow: /email/verify',
+        'Disallow: /user/',
+        '',
+        'Sitemap: '.route('sitemap'),
+        '',
+    ];
+
+    return response(implode("\n", $lines), 200, ['Content-Type' => 'text/plain']);
 })->name('robots');

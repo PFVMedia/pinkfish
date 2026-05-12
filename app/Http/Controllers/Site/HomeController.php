@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use App\Models\ContentBlock;
 use App\Models\Page;
+use App\Support\SeoMeta;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,6 +18,7 @@ class HomeController extends Controller
 
         return Inertia::render('Site/Home', [
             'page' => $page,
+            'seo' => SeoMeta::fromPage($page, defaultTitle: config('app.name')),
             'content' => ContentBlock::allKeyed(),
             'latestPosts' => BlogPost::published()
                 ->orderByDesc('published_at')

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ArrowLeft } from 'lucide-vue-next';
+import SeoHead from '@/components/SeoHead.vue';
 
 defineProps<{
     post: {
@@ -10,11 +11,12 @@ defineProps<{
         body: string;
         published_at: string;
     };
+    seo?: Record<string, unknown> | null;
 }>();
 </script>
 
 <template>
-    <Head :title="post.title" />
+    <SeoHead :seo="seo" />
 
     <div>
         <section class="relative overflow-hidden py-20 sm:py-28">

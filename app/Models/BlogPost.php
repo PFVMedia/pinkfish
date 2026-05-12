@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['title', 'slug', 'body', 'published_at', 'is_published'])]
+#[Fillable(['title', 'slug', 'body', 'meta_description', 'og_image', 'published_at', 'is_published'])]
 class BlogPost extends Model
 {
     /** @use HasFactory<BlogPostFactory> */

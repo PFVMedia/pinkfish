@@ -218,7 +218,9 @@ class PageBlocks
                     ->directory('page-images')
                     ->required(),
                 TextInput::make('alt_text')
-                    ->label('Alt Text'),
+                    ->label('Alt Text')
+                    ->required()
+                    ->helperText('Describe the image for screen readers and search engines. Required for accessibility and SEO.'),
                 TextInput::make('caption'),
             ]);
     }
