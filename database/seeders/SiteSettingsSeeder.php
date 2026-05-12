@@ -10,10 +10,10 @@ class SiteSettingsSeeder extends Seeder
     public function run(): void
     {
         $settings = [
-            ['group' => 'general', 'key' => 'site_name', 'value' => 'Pink Fish'],
-            ['group' => 'general', 'key' => 'logo_text', 'value' => 'Pink Fish'],
+            ['group' => 'general', 'key' => 'site_name', 'value' => ''],
+            ['group' => 'general', 'key' => 'logo_text', 'value' => ''],
             ['group' => 'general', 'key' => 'brand_tagline', 'value' => 'Building modern web applications with precision and care.'],
-            ['group' => 'general', 'key' => 'copyright_text', 'value' => 'Pink Fish Ventures Inc. All rights reserved.'],
+            ['group' => 'general', 'key' => 'copyright_text', 'value' => 'All rights reserved.'],
             ['group' => 'general', 'key' => 'color_palette', 'value' => 'indigo'],
             ['group' => 'general', 'key' => 'background_style', 'value' => 'orbs'],
             ['group' => 'navigation', 'key' => 'main_nav', 'value' => [

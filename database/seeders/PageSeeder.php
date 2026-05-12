@@ -95,7 +95,7 @@ class PageSeeder extends Seeder
                     'heading' => 'Who we are',
                 ]],
                 ['type' => 'rich_text', 'data' => [
-                    'content' => '<p>Pink Fish Ventures Inc. is a web development company specializing in building modern, high-performance web applications. Founded with a passion for clean code and elegant solutions, we help businesses of all sizes establish and grow their digital presence.</p><p>Our team brings together expertise in Laravel, Vue.js, and modern web technologies to deliver projects that are not only beautiful but also scalable, secure, and maintainable. We believe in transparent communication, agile methodologies, and delivering real value to our clients.</p>',
+                    'content' => '<p>Edit this placeholder from the admin area with your company story and values.</p>',
                 ]],
             ],
         ]);
@@ -199,7 +199,7 @@ class PageSeeder extends Seeder
                     'heading' => 'Privacy Policy',
                 ]],
                 ['type' => 'rich_text', 'data' => [
-                    'content' => '<p>Pink Fish Ventures Inc. is committed to protecting the privacy of our clients and website visitors. This privacy policy outlines how we collect, use, and safeguard your personal information.</p><p>We collect information you voluntarily provide through our contact form, including your name, email address, and message content. This information is used solely to respond to your inquiry. We do not sell, trade, or otherwise transfer your personal information to third parties.</p><p>We implement appropriate security measures to protect against unauthorized access to your data.</p>',
+                    'content' => '<p>Edit this placeholder from the admin area to describe how you handle visitor data.</p>',
                 ]],
             ],
         ]);

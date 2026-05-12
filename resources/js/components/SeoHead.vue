@@ -20,7 +20,7 @@ const props = defineProps<{
 const page = usePage();
 
 const siteSettings = computed(() => (page.props.siteSettings as Record<string, unknown>) || {});
-const appName = computed(() => (page.props.name as string) || 'Pink Fish');
+const appName = computed(() => (page.props.name as string) || '');
 const defaultDescription = computed(
     () =>
         (siteSettings.value.brand_tagline as string) ||

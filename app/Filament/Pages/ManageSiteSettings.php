@@ -40,14 +40,14 @@ class ManageSiteSettings extends Page implements HasForms
         $settings = SiteSetting::pluck('value', 'key')->toArray();
 
         $this->form->fill([
-            'site_name' => $settings['site_name'] ?? 'Pink Fish',
-            'logo_text' => $settings['logo_text'] ?? 'Pink Fish',
-            'brand_tagline' => $settings['brand_tagline'] ?? 'Building modern web applications with precision and care.',
+            'site_name' => $settings['site_name'] ?? '',
+            'logo_text' => $settings['logo_text'] ?? '',
+            'brand_tagline' => $settings['brand_tagline'] ?? '',
             'main_nav' => $settings['main_nav'] ?? [],
             'cta_text' => $settings['cta_text'] ?? 'Get Started',
             'cta_url' => $settings['cta_url'] ?? '/contact',
             'footer_columns' => $settings['footer_columns'] ?? [],
-            'copyright_text' => $settings['copyright_text'] ?? 'Pink Fish Ventures Inc. All rights reserved.',
+            'copyright_text' => $settings['copyright_text'] ?? 'All rights reserved.',
             'color_palette' => $settings['color_palette'] ?? 'indigo',
             'background_style' => $settings['background_style'] ?? 'orbs',
         ]);

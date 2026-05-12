@@ -3,7 +3,7 @@ import { initializeTheme } from '@/composables/useAppearance';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SiteLayout from '@/layouts/SiteLayout.vue';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Pink Fish Ventures';
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),

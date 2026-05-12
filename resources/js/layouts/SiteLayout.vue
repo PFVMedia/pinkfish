@@ -12,9 +12,9 @@ const page = usePage();
 const mobileMenuOpen = ref(false);
 
 const settings = computed(() => (page.props.siteSettings as Record<string, unknown>) || {});
-const logoText = computed(() => (settings.value.logo_text as string) || 'Pink Fish');
-const tagline = computed(() => (settings.value.brand_tagline as string) || 'Building modern web applications with precision and care.');
-const copyrightText = computed(() => (settings.value.copyright_text as string) || 'Pink Fish Ventures Inc. All rights reserved.');
+const logoText = computed(() => (settings.value.logo_text as string) || '');
+const tagline = computed(() => (settings.value.brand_tagline as string) || '');
+const copyrightText = computed(() => (settings.value.copyright_text as string) || 'All rights reserved.');
 const ctaText = computed(() => (settings.value.cta_text as string) || 'Get Started');
 const ctaUrl = computed(() => (settings.value.cta_url as string) || '/contact');
 const colorPalette = computed(() => (settings.value.color_palette as string) || 'indigo');
