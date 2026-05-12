@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\BlogPost;
 use App\Models\Page;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class SeoMeta
@@ -17,13 +18,17 @@ class SeoMeta
         $title = $page?->meta_title ?: ($page?->title ?: $defaultTitle);
         $description = $page?->meta_description ?: $defaultDescription;
 
-        return array_merge([
+        $seo = array_merge([
             'title' => $title,
             'description' => $description,
             'canonical' => url(request()->path() === '/' ? '/' : '/'.ltrim(request()->path(), '/')),
             'og_image' => null,
             'type' => 'website',
         ], $overrides);
+
+        View::share('seo', $seo);
+
+        return $seo;
     }
 
     /**
@@ -31,7 +36,7 @@ class SeoMeta
      */
     public static function fromBlogPost(BlogPost $post): array
     {
-        return [
+        $seo = [
             'title' => $post->title,
             'description' => $post->meta_description ?: self::excerpt($post->body),
             'canonical' => url('/blog/'.$post->slug),
@@ -40,6 +45,10 @@ class SeoMeta
             'published_time' => $post->published_at?->toAtomString(),
             'modified_time' => $post->updated_at?->toAtomString(),
         ];
+
+        View::share('seo', $seo);
+
+        return $seo;
     }
 
     private static function excerpt(?string $html, int $length = 160): ?string

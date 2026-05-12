@@ -142,6 +142,26 @@ it('includes URLs from Filament main_nav and footer_columns in the sitemap', fun
         ->assertDontSee('mailto:', false);
 });
 
+it('renders seo meta tags in server-side HTML for a blog post', function () {
+    $post = BlogPost::factory()->create([
+        'slug' => 'server-rendered-seo',
+        'is_published' => true,
+        'meta_description' => 'Server-side description text.',
+        'og_image' => 'blog-og/server.png',
+    ]);
+
+    $response = $this->get("/blog/{$post->slug}");
+
+    $response->assertSuccessful()
+        ->assertSee('<meta name="description" content="Server-side description text.">', false)
+        ->assertSee('<link rel="canonical" href="'.url("/blog/{$post->slug}").'">', false)
+        ->assertSee('<meta property="og:title"', false)
+        ->assertSee('<meta property="og:type" content="article">', false)
+        ->assertSee(url('storage/blog-og/server.png'), false)
+        ->assertSee('<meta name="twitter:card"', false)
+        ->assertSee('"@type":"BlogPosting"', false);
+});
+
 it('exposes seo meta on the blog post page', function () {
     $post = BlogPost::factory()->create([
         'slug' => 'seo-blog-post',

@@ -1,0 +1,1 @@
+import{F as e,T as t,_ as n,a as r,c as i,et as a,y as o}from"./app-0whx5WVo.js";var s=t({__name:`SeoHead`,props:{seo:{}},setup(t){let s=t,c=i(),l=n(()=>c.props.name||``),u=n(()=>{let e=s.seo?.title;return e?l.value&&e!==l.value?`${e} – ${l.value}`:e:l.value});return(t,n)=>(e(),o(a(r),{title:u.value},null,8,[`title`]))}});export{s as t};
